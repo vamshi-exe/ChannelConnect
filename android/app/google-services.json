@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "169594210760",
+    "firebase_url": "https://channel-connect-b6a5e.firebaseio.com",
+    "project_id": "channel-connect-b6a5e",
+    "storage_bucket": "channel-connect-b6a5e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:169594210760:android:d808232e1632fc06",
+        "android_client_info": {
+          "package_name": "development.avenues.crs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "169594210760-s224ecglcqt9rgavh2tp1a6lh3ck81a2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzTaWkIKCIBfahNMFTc2r0AzuLspFy3D0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "169594210760-s224ecglcqt9rgavh2tp1a6lh3ck81a2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:169594210760:android:f1e254bacc7e88bf6a98fd",
+        "android_client_info": {
+          "package_name": "mobile.ia.resavenue"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "169594210760-s224ecglcqt9rgavh2tp1a6lh3ck81a2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzTaWkIKCIBfahNMFTc2r0AzuLspFy3D0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "169594210760-s224ecglcqt9rgavh2tp1a6lh3ck81a2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
