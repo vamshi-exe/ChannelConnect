@@ -89,6 +89,9 @@ class HotelReservation {
   UniqueID? uniqueID;
   RoomStays? roomStays;
   String? resStatus;
+  String? specialRequest;
+  String? discount;
+  String? policy;
 
   HotelReservation(
       {this.createDateTime,
@@ -96,6 +99,9 @@ class HotelReservation {
       this.payAtHotel,
       this.resGuests,
       this.uniqueID,
+      this.specialRequest,
+      this.discount,
+      this.policy,
       this.roomStays,
       this.resStatus});
 
@@ -115,6 +121,9 @@ class HotelReservation {
         ? new RoomStays.fromJson(json['RoomStays'])
         : null;
     resStatus = json['ResStatus'];
+    specialRequest = json["SpecialRequest"];
+    discount = json["Discount"];
+    policy = json["Policy"];
   }
 
   Map<String, dynamic> toJson() {
@@ -471,6 +480,26 @@ class RoomStay {
       this.ratePlans,
       this.timeSpan,
       this.total});
+
+  String get getAdultCount {
+    final guestCount = guestCounts!.guestCount!;
+    for (var item in guestCount) {
+      if (item.ageQualifyingCode == "10") {
+        return item.count!;
+      }
+    }
+    return "0";
+  }
+
+  String get getChildCount {
+    final guestCount = guestCounts!.guestCount!;
+    for (var item in guestCount) {
+      if (item.ageQualifyingCode == "8") {
+        return item.count!;
+      }
+    }
+    return "0";
+  }
 
   RoomStay.fromJson(Map<String, dynamic> json) {
     guestCounts = json['GuestCounts'] != null

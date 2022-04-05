@@ -56,31 +56,31 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
               ],
             ),
           ),
-          widget.booking.resStatus! == "Cancel"
-              ? Container(
-                  child: Text(
-                    widget.booking.resStatus!,
-                    style: TextStyle(color: AppColors.redAccent),
-                  ),
-                )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Confirmed",
-                      style: TextStyle(
-                          color: Colors.green, fontWeight: FontWeight.w700),
-                    ),
-                    SizedBox(
-                      height: 2,
-                    ),
-                    Text(
-                      "${Utility.formattedServerDate(formatedBookedTime)}",
-                      style: TextStyle(
-                          fontWeight: FontWeight.normal, color: Colors.green),
-                    )
-                  ],
-                ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                widget.booking.resStatus! == "Commit"
+                    ? "Confirmed"
+                    : widget.booking.resStatus! == "Modify"
+                        ? "Modified"
+                        : widget.booking.resStatus!,
+                style: TextStyle(
+                    color: widget.booking.resStatus! == "Cancel"
+                        ? Colors.red
+                        : Colors.green,
+                    fontWeight: FontWeight.w700),
+              ),
+              SizedBox(
+                height: 2,
+              ),
+              Text(
+                "${Utility.formattedServerDate(formatedBookedTime)}",
+                style: TextStyle(
+                    fontWeight: FontWeight.normal, color: Colors.green),
+              )
+            ],
+          ),
         ],
       ),
     );
@@ -110,6 +110,10 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
           SizedBox(
             height: 8,
           ),
+          _buildTitleDescRowWidget("Source", widget.booking.uniqueID!.source!),
+          SizedBox(
+            height: 8,
+          ),
           _buildTitleDescRowWidget(
               "Booking Amt.", "$currencyCode $totalBookingAmount"),
           SizedBox(
@@ -117,12 +121,14 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
           ),
           _buildTitleDescRowWidget(
               "Pay Status",
-              (widget.booking.payAtHotel == "N")
-                  ? "${widget.booking.payAtHotel}"
-                  : "Pay@Hotel",
-              descColor: (widget.booking.payAtHotel == "N")
-                  ? AppColors.calenderTextRedColor
-                  : AppColors.calenderTextGreenColor,
+              // (widget.booking.payAtHotel == "N")
+              //     ?
+              widget.booking.resGlobalInfo!.total!.payStatus!,
+              // : "Pay@Hotel",
+              descColor: (widget.booking.resGlobalInfo!.total!.payStatus! ==
+                      "Fully Paid")
+                  ? AppColors.calenderTextGreenColor
+                  : AppColors.calenderTextRedColor,
               descWeight: FontWeight.w700),
         ],
       ),
@@ -206,17 +212,21 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                   .customer!
                   .contactNo!;
               final roomName =
-                  roomStay[0].roomTypes!.roomType!.roomDescription!.name;
+                  roomStay[index].roomTypes!.roomType!.roomDescription!.name;
               final roomPlanName =
-                  roomStay[0].ratePlans!.ratePlan!.ratePlanName;
-              final checkIn = roomStay[0].timeSpan!.start;
-              final checkOut = roomStay[0].timeSpan!.end;
-              final sellRate = roomStay[0].total!.currencyCode! +
+                  roomStay[index].ratePlans!.ratePlan!.ratePlanName;
+              final checkIn = roomStay[index].timeSpan!.start;
+              final checkOut = roomStay[index].timeSpan!.end;
+              final sellRate = roomStay[index].total!.currencyCode! +
                   " " +
-                  roomStay[0].total!.amount!.toString();
+                  roomStay[index].total!.amount!.toString();
               final duration = Utility.parseServerDate(checkOut!)
                   .difference(Utility.parseServerDate(checkIn!))
                   .inDays;
+              final adultCount = roomStay[index].getAdultCount;
+              final childCount = roomStay[index].getChildCount;
+              final ratePlan =
+                  roomStay[index].ratePlans!.ratePlan!.ratePlanName;
               return Container(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Column(
@@ -254,6 +264,11 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                                 height: 8,
                               ),
                               _buildTitleDescRowWidget(
+                                  "Rate Plan", "$ratePlan"),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              _buildTitleDescRowWidget(
                                   "Guest Details", "$firstName $lastName"),
                               SizedBox(
                                 height: 8,
@@ -272,12 +287,19 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                               SizedBox(
                                 height: 8,
                               ),
-                              _buildTitleDescRowWidget("Net Rate", "-"),
+                              _buildTitleDescRowWidget("Adults", "$adultCount"),
                               SizedBox(
                                 height: 8,
                               ),
-                              _buildTitleDescRowWidget(
-                                  "Sell Rate", "$sellRate"),
+                              _buildTitleDescRowWidget("Childs", "$childCount"),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              _buildTitleDescRowWidget("Net Rate", "$sellRate"),
+                              // SizedBox(
+                              //   height: 8,
+                              // ),
+                              // _buildTitleDescRowWidget("Sell Rate", "-"),
                             ],
                           ),
                         )
@@ -437,7 +459,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                 onPressed: widget.booking.isPayAtHotel()
                     ? () {
                         _performCollectPayment((String email) {
-                          model.collectPaymentRequest(context,email);
+                          model.collectPaymentRequest(context, email);
                         });
                       }
                     : null,
@@ -461,8 +483,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
             child: TextButton.icon(
               onPressed: () {
                 _performResendMail((String email) {
-                  model.resendEmail(context,email);
-                        
+                  model.resendEmail(context, email);
                 });
               },
               label: Text(
@@ -477,6 +498,34 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
           )
         ],
       ),
+    );
+  }
+
+  _buildExtra(String title, String desc) {
+    return Column(
+      children: [
+        Container(
+          height: 1,
+          color: AppColors.grey300,
+        ),
+        Container(
+          width: double.maxFinite,
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "$title",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Text("$desc")
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -531,6 +580,15 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                   color: AppColors.grey300,
                 ),
                 _buildTotalAmount(),
+                Visibility(
+                  visible: widget.booking.specialRequest != null,
+                  child:_buildExtra("Special Request", " I need show Balls") ),
+                Visibility(
+                  visible: widget.booking.discount != null,
+                  child: _buildExtra("Discount", "Dicount of 500"),),
+                Visibility(
+                  visible: widget.booking.policy != null,
+                  child:_buildExtra("Policy", "Money return policy on cancellation"), ),
               ],
             ),
           ),
@@ -808,7 +866,7 @@ class _ResendMailWidgetState extends State<ResendMailWidget> {
                         widget.onSubmit(controllerList
                             .map((e) => e.text)
                             .toList()
-                            .join(","));
+                            .join(";"));
                       }
                     },
                     elevation: 0,

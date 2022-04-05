@@ -31,7 +31,7 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   setUpLocator();
   final model = AppRepo();
- // await model.init();
+  //await model.init();
   final login = await Prefs.login;
   myPrint("start login is $login");
   runApp(MyApp(

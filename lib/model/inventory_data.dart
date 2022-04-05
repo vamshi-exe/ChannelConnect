@@ -19,6 +19,7 @@ class InventoryData {
   int? cutOff;
   DateTime? dateTime;
   bool? selected;
+  bool? isMap;
 
   InventoryData(
       {this.date,
@@ -27,6 +28,7 @@ class InventoryData {
       this.closeOnArrival,
       this.closeOnDeparture,
       this.selected,
+      this.isMap,
       this.dateTime,
       this.cutOff});
 
@@ -38,6 +40,7 @@ class InventoryData {
     closeOnDeparture = json['CloseOnDeparture'];
     cutOff = json['CutOff'];
     selected = false;
+    isMap = true;
     dateTime = Utility.parseServerDate(date!);
   }
 

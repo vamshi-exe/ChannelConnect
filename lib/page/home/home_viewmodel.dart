@@ -76,6 +76,7 @@ class HomeViewModel extends ChangeNotifier {
                   dateTime: datetime,
                   single: 0.00,
                   ddouble: 0.0,
+                  isMap: true,
                   triple: 0.0));
             } else {
               alteredList.add(_rateList[found]);
@@ -116,6 +117,7 @@ class HomeViewModel extends ChangeNotifier {
             single: 0.0,
             ddouble: 0.0,
             triple: 0.0,
+            isMap: false,
             date: Utility.formattedServerDateForRequest(datetime)));
       }
       final etxraDateCount = _rateList[0].dateTime!.weekday;
@@ -169,6 +171,7 @@ class HomeViewModel extends ChangeNotifier {
               alteredList.add(InventoryData(
                   dateTime: datetime,
                   invCount: 0,
+                  isMap: true,
                   date: Utility.formattedServerDateForRequest(datetime)));
             } else {
               alteredList.add(_inventoryList[found]);
@@ -201,6 +204,7 @@ class HomeViewModel extends ChangeNotifier {
         _inventoryList.add(InventoryData(
             dateTime: datetime,
             invCount: 0,
+            isMap: false,
             date: Utility.formattedServerDateForRequest(datetime)));
       }
       final etxraDateCount = _inventoryList[0].dateTime!.weekday;

@@ -240,11 +240,14 @@ class CalenderView extends ViewModelWidget<HomeViewModel> {
                                           model.inventoryList[index].invCount ??
                                               0,
                                           model.inventoryList[index].selected ??
-                                              false,"No Inventory Available",
+                                              false,
+                                               model.inventoryList[index].isMap??true?
+                                              "No Inventory Available":"No online rooms are mapped",
                                                onDateSelected: () {
                                         if (model.inventoryList[index]
                                                 .stopSell ==
-                                            null) {
+                                            null || DateTime.now().difference( model.inventoryList[index].dateTime!).inDays > 0
+                                           ) {
                                           // Utility.showSnackBar(
                                           //     context, "Invalid Date");
                                         } else {
@@ -261,9 +264,13 @@ class CalenderView extends ViewModelWidget<HomeViewModel> {
                                           model.rateList[index].ddouble!
                                               .toInt(),
                                           model.rateList[index].selected ??
-                                              false,"No Rate Available", onDateSelected: () {
-                                        if (model.rateList[index].stopSell ==
-                                            null) {
+                                              false,
+                                              model.rateList[index].isMap??true?
+                                              "No Rate Available":"No online rooms are mapped", onDateSelected: () {
+                                        if (model.inventoryList[index]
+                                                .stopSell ==
+                                            null || DateTime.now().difference( model.inventoryList[index].dateTime!).inDays > 0
+                                           ) {
                                           // Utility.showSnackBar(
                                           //     context, "Invalid Date");
                                         } else {
@@ -328,7 +335,7 @@ class CalenderView extends ViewModelWidget<HomeViewModel> {
     return Visibility(
       visible: dateTime.year != 1980,
       child: Card(
-          color: stopSell == null
+          color: stopSell == null || DateTime.now().difference(dateTime).inDays > 0
               ? AppColors.grey300
               : selected
                   ? Colors.yellow
@@ -348,7 +355,7 @@ class CalenderView extends ViewModelWidget<HomeViewModel> {
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
-                      color: stopSell == null
+                      color: stopSell == null || DateTime.now().difference(dateTime).inDays > 0
                           ? AppColors.grey600
                           : stopSell
                               ? AppColors.calenderTextRedColor
@@ -363,7 +370,7 @@ class CalenderView extends ViewModelWidget<HomeViewModel> {
                         dateTime.day.toString(),
                         style: TextStyle(
                           fontSize: 9,
-                          color: stopSell == null
+                          color: stopSell == null || DateTime.now().difference(dateTime).inDays > 0
                               ? AppColors.grey600
                               : stopSell
                                   ? AppColors.calenderTextRedColor

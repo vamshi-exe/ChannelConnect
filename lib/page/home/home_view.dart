@@ -43,13 +43,12 @@ class _HomeViewState extends State<HomeView>
   @override
   void initState() {
     _controller = TabController(length: 2, vsync: this);
-   
-    super.initState();
-     fcmToken();
-  }
-  fcmToken()async{
 
+    super.initState();
+    fcmToken();
   }
+
+  fcmToken() async {}
 
   _showInventoryEditDialog(HomeViewModel model) {
     showDialog(
@@ -312,6 +311,8 @@ class _HomeViewState extends State<HomeView>
                       selctedRatePlanType: repo.selectedRateRoomType,
                       onRoomChanged: (RoomTypes value) {
                         repo.setSelectedInventoryRoomType(value);
+                        _inventoryList.clear();
+                        _rateList.clear();
                       },
                       onRateChanged: (RatePlans value) {},
                       onInventoryListUpdated: (List<InventoryData> list) {
@@ -327,9 +328,13 @@ class _HomeViewState extends State<HomeView>
                       isInventory: false,
                       onRoomChanged: (RoomTypes value) {
                         repo.setSelectedInventoryRoomType(value);
+                         _inventoryList.clear();
+                        _rateList.clear();
                       },
                       onRateChanged: (RatePlans value) {
                         repo.setSelectedRateRoomType(value);
+                         _inventoryList.clear();
+                        _rateList.clear();
                       },
                       onRateListUpdated: (List<RateData> list) {
                         _rateList = list

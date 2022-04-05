@@ -22,6 +22,7 @@ class RateData {
   String? blackout;
   DateTime? dateTime;
   bool? selected;
+  bool? isMap;
 
   RateData(
       {this.date,
@@ -32,6 +33,7 @@ class RateData {
       this.quad,
       this.extraPax,
       this.dateTime,
+      this.isMap,
       this.extraChild,
       this.minStay,
       this.maxStay,
@@ -52,6 +54,7 @@ class RateData {
     blackout = json['Blackout'];
     dateTime = Utility.parseServerDate(date!);
     selected = false;
+    isMap = true;
   }
 
   Map<String, dynamic> toJson(
