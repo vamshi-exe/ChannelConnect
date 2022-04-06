@@ -78,7 +78,12 @@ class CalenderView extends ViewModelWidget<HomeViewModel> {
                                       selectedRoomType = value!;
                                       // });
                                       onRoomChanged(value);
-                                      model.fetchInvenoryCalenderData(repo);
+                                      if(isInventory){  
+                                         model.fetchInvenoryCalenderData(repo);
+                                      }else{
+                                         model.fetchRateCalenderData(repo);
+                                      }
+                                     
                                     })),
                         Visibility(
                           visible: !isInventory,

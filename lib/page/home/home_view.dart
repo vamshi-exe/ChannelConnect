@@ -231,23 +231,6 @@ class _HomeViewState extends State<HomeView>
   }
 
   _floatingButtonClicked(HomeViewModel model) async {
-    // final repo = Provider.of<AppRepo>(context, listen: false);
-    // _refreshData = false;
-    // final value =
-    //     await _showStatusDialog("Inventory Update", "Luxury AC Room", "1584", [
-    //   ResponseStatus(channelName: "Resavenue", channelCode: "REZ"),
-    //   ResponseStatus(channelName: "Demo", channelCode: "REZ")
-    // ]);
-    // if (value == 0) {
-    //                       model.fetchInvenoryCalenderData(repo);
-    //                     } else {
-    //                       model.fetchRateCalenderData(repo);
-    //                     }
-    // final repo = Provider.of<AppRepo>(context, listen: false);
-    // repo.setSelectedInventoryRoomType(repo.selectedInventoryRoomType!);
-    //Utility.pushToDashBoard(context);
-
-    // _controller.animateTo(_controller.index);
     if (_controller.index == 0) {
       if (_inventoryList.isNotEmpty) {
         _showInventoryEditDialog(model);
@@ -327,14 +310,16 @@ class _HomeViewState extends State<HomeView>
                       selctedRatePlanType: repo.selectedRateRoomType,
                       isInventory: false,
                       onRoomChanged: (RoomTypes value) {
-                        repo.setSelectedInventoryRoomType(value);
                          _inventoryList.clear();
                         _rateList.clear();
+                        repo.setSelectedInventoryRoomType(value);
+                        
                       },
                       onRateChanged: (RatePlans value) {
-                        repo.setSelectedRateRoomType(value);
                          _inventoryList.clear();
                         _rateList.clear();
+                        repo.setSelectedRateRoomType(value);
+                        
                       },
                       onRateListUpdated: (List<RateData> list) {
                         _rateList = list
