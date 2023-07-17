@@ -5,7 +5,6 @@ import 'package:channel_connect/network/api_service.dart';
 import 'package:channel_connect/prefrence_util/Prefs.dart';
 import 'package:channel_connect/util/constants.dart';
 import 'package:channel_connect/util/utility.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AppRepo extends ChangeNotifier {
@@ -136,6 +135,10 @@ class AppRepo extends ChangeNotifier {
     //     icon: Icons.home_outlined,
     //     drawerEnum: DrawerEnum.configuration));
     list.add(NavData(
+        name: Constants.collectPayment,
+        icon: Icons.payment,
+        drawerEnum: DrawerEnum.collectPayment));
+    list.add(NavData(
         name: Constants.help,
         icon: Icons.help_outline_rounded,
         drawerEnum: DrawerEnum.help));
@@ -159,4 +162,5 @@ enum DrawerEnum {
   configuration,
   help,
   logout,
+  collectPayment
 }

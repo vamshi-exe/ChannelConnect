@@ -1,6 +1,7 @@
 import 'package:channel_connect/app/app_nav_drawer.dart';
 import 'package:channel_connect/app/app_repo.dart';
 import 'package:channel_connect/model/ota_property_data.dart';
+import 'package:channel_connect/page/Collect_Payment/collectPayment_View.dart';
 import 'package:channel_connect/page/home/home_view.dart';
 import 'package:channel_connect/page/report/report_view.dart';
 import 'package:channel_connect/util/app_color.dart';

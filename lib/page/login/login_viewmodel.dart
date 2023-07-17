@@ -15,9 +15,8 @@ import 'package:stacked/stacked.dart';
 import 'package:store_redirect/store_redirect.dart';
 
 class LoginViewModel extends BaseViewModel with AppHelper {
-  final usernameController =
-      TextEditingController(text: "rucha.betigeri@avenues.info");
-  final passwordController = TextEditingController(text: "test@123");
+  final usernameController = TextEditingController(text: "");
+  final passwordController = TextEditingController(text: "");
   final _apiService = locator<ApiService>();
 
   void loginUser(BuildContext context) async {

@@ -272,9 +272,9 @@ class CalenderView extends ViewModelWidget<HomeViewModel> {
                                               false,
                                               model.rateList[index].isMap??true?
                                               "No Rate Available":"No online rooms are mapped", onDateSelected: () {
-                                        if (model.inventoryList[index]
+                                        if (model.rateList[index]
                                                 .stopSell ==
-                                            null || DateTime.now().difference( model.inventoryList[index].dateTime!).inDays > 0
+                                            null || DateTime.now().difference( model.rateList[index].dateTime!).inDays > 0
                                            ) {
                                           // Utility.showSnackBar(
                                           //     context, "Invalid Date");

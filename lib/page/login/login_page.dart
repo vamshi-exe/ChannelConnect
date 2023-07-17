@@ -5,6 +5,7 @@ import 'package:channel_connect/util/app_image.dart';
 import 'package:channel_connect/util/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:email_validator/email_validator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -68,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                     TextFormField(
                       controller: model.usernameController,
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value!.isEmpty || !EmailValidator.validate(value, true)) {
                           return "Please Enter Valid Username";
                         }
                         return null;

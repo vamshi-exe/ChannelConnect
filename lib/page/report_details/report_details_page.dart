@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:ui';
 
 import 'package:channel_connect/app/app_repo.dart';
@@ -319,72 +320,169 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
     final total = widget.booking.resGlobalInfo!.total!;
     final netAmount = total.currencyCode! + " " + total.supplierAmount!;
     final commission = total.currencyCode! + " " + total.commissionAmount!;
-    final totalAmount = total.currencyCode! + " " + total.totalBookingAmount!;
+    final totalAmount = "${total.currencyCode!} ${total.totalBookingAmount!}";
     final taxAmount = total.currencyCode! + " " + total.totalTax!;
+    double totalBookingAmount = 0;
+    for (var i = 0; i < widget.booking.roomStays!.roomStay!.length; i++) {
+      totalBookingAmount +=
+          double.parse(widget.booking.roomStays!.roomStay![i].total!.amount!);
+    }
+    final totalBookingAmountVal =
+        "${total.currencyCode!} ${totalBookingAmount.toStringAsFixed(2)}";
+    double discountVal =
+        totalBookingAmount - double.parse(total.supplierAmount!);
+    final discountAmount =
+        "${total.currencyCode!} ${discountVal.toStringAsFixed(2)}";
+    String partPaymentAmount = "${total.currencyCode!} 0.00";
+    double partPaymentVal = 0.00;
+    if (total.payableToHotel != "null") {
+      partPaymentVal = double.parse(total.totalBookingAmount!) -
+          double.parse(total.payableToHotel!);
+      partPaymentAmount =
+          "${total.currencyCode!} ${partPaymentVal.toStringAsFixed(2)}";
+    }
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       child: Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                  flex: 2,
-                  child: Text(
-                    "Net Amount (may include tax as per your OTA configuration)",
-                    textAlign: TextAlign.end,
-                  )),
-              SizedBox(
-                width: 5,
-              ),
-              Text(" : "),
-              SizedBox(
-                width: 5,
-              ),
-              Expanded(flex: 1, child: Text("$netAmount"))
-            ],
-          ),
+          double.parse(total.totalBookingAmount!) > 0
+              ? Row(
+                  children: [
+                    Expanded(
+                        flex: 2,
+                        child: Text(
+                          "Total Booking Amount",
+                          textAlign: TextAlign.end,
+                        )),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(" : "),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(flex: 1, child: Text(totalAmount))
+                  ],
+                )
+              : Container(),
+          totalBookingAmount > 0
+              ? Row(
+                  children: [
+                    Expanded(
+                        flex: 2,
+                        child: Text(
+                          "Net Amount (may include tax as per your OTA configuration)",
+                          textAlign: TextAlign.end,
+                        )),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(" : "),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(flex: 1, child: Text(totalBookingAmountVal))
+                  ],
+                )
+              : Container(),
           SizedBox(
             height: 8,
           ),
-          Row(
-            children: [
-              Expanded(
-                  flex: 2,
-                  child: Text(
-                    "Tax",
-                    textAlign: TextAlign.end,
-                  )),
-              SizedBox(
-                width: 5,
-              ),
-              Text(" : "),
-              SizedBox(
-                width: 5,
-              ),
-              Expanded(flex: 1, child: Text("$taxAmount"))
-            ],
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Row(
-            children: [
-              Expanded(
-                  flex: 2,
-                  child: Text(
-                    "Commission",
-                    textAlign: TextAlign.end,
-                  )),
-              SizedBox(
-                width: 5,
-              ),
-              Text(" : "),
-              SizedBox(
-                width: 5,
-              ),
-              Expanded(flex: 1, child: Text("$commission"))
-            ],
-          ),
+          double.parse(total.totalTax!) > 0
+              ? Row(
+                  children: [
+                    Expanded(
+                        flex: 2,
+                        child: Text(
+                          "GST",
+                          textAlign: TextAlign.end,
+                        )),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(" : "),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(flex: 1, child: Text(taxAmount))
+                  ],
+                )
+              : Container(),
+          double.parse(total.totalTax!) > 0
+              ? SizedBox(
+                  height: 8,
+                )
+              : Container(),
+          double.parse(total.commissionAmount!) > 0
+              ? Row(
+                  children: [
+                    Expanded(
+                        flex: 2,
+                        child: Text(
+                          "Commission",
+                          textAlign: TextAlign.end,
+                        )),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(" : "),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(flex: 1, child: Text(commission))
+                  ],
+                )
+              : Container(),
+          double.parse(total.commissionAmount!) > 0
+              ? SizedBox(
+                  height: 5,
+                )
+              : Container(),
+          partPaymentVal > 0
+              ? Row(
+                  children: [
+                    Expanded(
+                        flex: 2,
+                        child: Text(
+                          "Part Payment Received",
+                          textAlign: TextAlign.end,
+                        )),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(" : "),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(flex: 1, child: Text(partPaymentAmount))
+                  ],
+                )
+              : Container(),
+          partPaymentVal > 0
+              ? SizedBox(
+                  height: 5,
+                )
+              : Container(),
+          discountVal > 0
+              ? Row(
+                  children: [
+                    Expanded(
+                        flex: 2,
+                        child: Text(
+                          "Discount Applied",
+                          textAlign: TextAlign.end,
+                        )),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(" : "),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(flex: 1, child: Text(discountAmount))
+                  ],
+                )
+              : Container(),
         ],
       ),
     );
@@ -392,10 +490,15 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
 
   _buildTotalAmount() {
     final total = widget.booking.resGlobalInfo!.total!;
-    final netAmount = total.currencyCode! + " " + total.supplierAmount!;
-    final commission = total.currencyCode! + " " + total.commissionAmount!;
-    final totalAmount = total.currencyCode! + " " + total.totalBookingAmount!;
-    return Container(
+    // final netAmount = total.currencyCode! + " " + total.supplierAmount!;
+    // final commission = total.currencyCode! + " " + total.commissionAmount!;
+    // final totalAmount = total.currencyCode! + " " + total.totalBookingAmount!;
+    double paybleAtHotel = 0.00;
+    if (total.payableToHotel != "null") {
+      paybleAtHotel = double.parse(total.payableToHotel!);
+    }
+    String balanceDueVal = "${total.currencyCode!} $paybleAtHotel";
+    return paybleAtHotel > 0 ? Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       child: DefaultTextStyle(
         style: TextStyle(
@@ -409,7 +512,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                 Expanded(
                     flex: 2,
                     child: Text(
-                      "Total Booking Amount",
+                      "Balance Due",
                       textAlign: TextAlign.end,
                     )),
                 SizedBox(
@@ -419,13 +522,13 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                 SizedBox(
                   width: 5,
                 ),
-                Expanded(flex: 1, child: Text("$totalAmount"))
+                Expanded(flex: 1, child: Text(balanceDueVal))
               ],
             )
           ],
         ),
       ),
-    );
+    ) : Container();
   }
 
   _performCollectPayment(Function(String email) onSubmit) async {
@@ -581,14 +684,18 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                 ),
                 _buildTotalAmount(),
                 Visibility(
-                  visible: widget.booking.specialRequest != null,
-                  child:_buildExtra("Special Request", " I need show Balls") ),
+                    visible: widget.booking.specialRequest != null,
+                    child:
+                        _buildExtra("Special Request", " I need show Balls")),
                 Visibility(
                   visible: widget.booking.discount != null,
-                  child: _buildExtra("Discount", "Dicount of 500"),),
+                  child: _buildExtra("Discount", "Dicount of 500"),
+                ),
                 Visibility(
                   visible: widget.booking.policy != null,
-                  child:_buildExtra("Policy", "Money return policy on cancellation"), ),
+                  child: _buildExtra(
+                      "Policy", "Money return policy on cancellation"),
+                ),
               ],
             ),
           ),

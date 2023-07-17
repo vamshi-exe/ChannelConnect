@@ -1,4 +1,5 @@
 import 'package:channel_connect/model/ota_property_data.dart';
+import 'package:channel_connect/page/Collect_Payment/collectPayment_list.dart';
 import 'package:channel_connect/prefrence_util/Prefs.dart';
 import 'package:channel_connect/util/app_color.dart';
 import 'package:channel_connect/util/app_image.dart';
@@ -41,7 +42,7 @@ class AppNavDrawer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 60,
                   ),
                   Image.asset(
@@ -49,38 +50,39 @@ class AppNavDrawer extends StatelessWidget {
                     height: 60,
                   ),
                   Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: DropdownButton<PropertyDetail>(
-                              underline: SizedBox(),
-                              iconEnabledColor: AppColors.whiteColor,
-                              iconDisabledColor: AppColors.whiteColor,
-                              //isDense: true,
-                              isExpanded: true,
-                              style: TextStyle(color: AppColors.whiteColor),
-                              dropdownColor: AppColors.mainDarkColor,
-                              items: repo.otaPropertyData.oTAPropertiesRS![0]
-                                  .propertyDetail!
-                                  .map((e) => DropdownMenuItem<PropertyDetail>(
-                                      value: e, child: Text("${e.hotelName}")))
-                                  .toList(),
-                              value: repo.selectedProperty,
-                              onChanged: (value) {
-                                Navigator.pop(context);
-                                repo.setSelectedProperty(value!);
-                                Utility.pushToDashBoard(context);
-                              },
-                            ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: DropdownButton<PropertyDetail>(
+                            underline: const SizedBox(),
+                            iconEnabledColor: AppColors.whiteColor,
+                            iconDisabledColor: AppColors.whiteColor,
+                            //isDense: true,
+                            isExpanded: true,
+                            style: TextStyle(color: AppColors.whiteColor),
+                            dropdownColor: AppColors.mainDarkColor,
+                            items: repo.otaPropertyData.oTAPropertiesRS![0]
+                                .propertyDetail!
+                                .map((e) => DropdownMenuItem<PropertyDetail>(
+                                    value: e, child: Text("${e.hotelName}")))
+                                .toList(),
+                            value: repo.selectedProperty,
+                            onChanged: (value) {
+                              Navigator.pop(context);
+                              repo.setSelectedProperty(value!);
+                              Utility.pushToDashBoard(context);
+                            },
                           ),
-                        ],
-                      )),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Column(
@@ -98,6 +100,14 @@ class AppNavDrawer extends StatelessWidget {
                               Prefs.clear();
                               Utility.pushToLogin(context);
                             });
+                          } else if (e.drawerEnum ==
+                              DrawerEnum.collectPayment) {
+                            Navigator.pop(context);
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const CollectPaymentList(
+                                    // hotelId: repo.selectedProperty.hotelId
+                                    //     .toString(),
+                                    )));
                           } else {
                             Navigator.pop(context);
                             repo.setDrawerNavigationItem(e.drawerEnum);

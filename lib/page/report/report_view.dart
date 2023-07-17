@@ -745,12 +745,16 @@ class ReportRowWidget extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4)),
                     onPressed: () {},
-                    color: report.resStatus! == "Cancel"
-                        ? AppColors.calenderRedColor
-                        : AppColors.reportButtonColor,
-                    child: Text(report.resStatus! == "Cancel"
-                        ? report.resStatus!
-                        : 'Confirmed'))
+                    color: report.resStatus! == "Cancel" ? AppColors.reportCancelButtonColor
+                        : report.resStatus! == "Modify" ? AppColors.reportModifiedButtonColor
+                        : report.resStatus! == "Commit" ? AppColors.reportConfirmButtonColor
+                        : report.resStatus! == "Pending" ? AppColors.reportPendingButtonColor
+                        : AppColors.reportOtherButtonColor,
+                    child: Text(report.resStatus! == "Commit"
+                    ? "Confirmed"
+                    : report.resStatus! == "Modify"
+                        ? "Modified"
+                        : report.resStatus!))
               ],
             ))
           ],

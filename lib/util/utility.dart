@@ -87,6 +87,8 @@ class Utility {
         .pushNamedAndRemoveUntil('/LoginPage', (Route<dynamic> route) => false);
   }
 
+  
+
   static showSnackBar(BuildContext context, String text) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(text),
@@ -186,6 +188,11 @@ class Utility {
   static String formattedServerDateForRequest(DateTime dateTime) {
     // dateTime = dateTime.add(Duration(hours: 5,minutes: 30));
     return DateFormat('yyyy-MM-dd').format(dateTime);
+  }
+
+    static String formattedServerDateForPaymentRequest(DateTime dateTime) {
+    // dateTime = dateTime.add(Duration(hours: 5,minutes: 30));
+    return DateFormat('dd-MMM-yyyy').format(dateTime);
   }
 
   static String formattedServerDate(DateTime dateTime) {

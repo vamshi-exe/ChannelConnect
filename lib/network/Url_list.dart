@@ -5,4 +5,8 @@ class UrlList {
   static const String repot = _base_url + "PmsRateInventoryNotification";
   static const String register = _base_url+"registeration.do";
   static const String forgotPassword = _base_url + "registeration.do?command=updateForward&flag=resetUser";
+
+  static const String bulkInvoice =
+      "http://test.resavenue.com/res_mars_new/generateBulkInvoice";
+
 }

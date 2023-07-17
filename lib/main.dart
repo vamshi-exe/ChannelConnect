@@ -2,6 +2,7 @@ import 'package:channel_connect/page/report/report_view.dart';
 import 'package:channel_connect/page/splash/splash_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -62,8 +63,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.pink,
             focusColor: Colors.blueGrey,
             appBarTheme: AppBarTheme(
-              color: AppColors.mainColor,
-              brightness: Brightness.light
+              color: AppColors.mainColor, systemOverlayStyle: SystemUiOverlayStyle.light
             ),
             textTheme:
                 GoogleFonts.robotoTextTheme(Theme.of(context).textTheme)),

@@ -108,10 +108,10 @@ class _ErrorDialog extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              FlatButton(
+              TextButton(
               onPressed: () => completer(DialogResponse(confirmed: true)),
                 child: const Text('OK'),
-                textColor: Colors.blue
+                // textColor: Colors.blue
               )
             ],
           ),

@@ -15,4 +15,5 @@ class CommonPattern {
   static final passportRegex = r"^[A-Z]{1}-[0-9]{7}$";
   static final aadharRegex = r"^[2-9]{1}[0-9]{3}\\s[0-9]{4}\\s[0-9]{4}$";
   static final addressRegex = r"^[a-zA-Z0-9\s,\/.#()-]+$";
+  static final amount = r"^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$";
 }

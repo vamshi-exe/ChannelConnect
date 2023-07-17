@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:channel_connect/model/inventory_data.dart';
 import 'package:channel_connect/model/ota_property_data.dart';
 import 'package:channel_connect/model/rate_data.dart';
 import 'package:channel_connect/model/report_response_data.dart';
+import 'package:channel_connect/model/invoiceList_response_data.dart';
 import 'package:channel_connect/network/Api.dart';
 import 'package:channel_connect/network/Url_list.dart';
 import 'package:channel_connect/network/api_error_exception.dart';
@@ -33,8 +35,7 @@ class ApiService {
             "Username": "$username",
             "Password": "$password",
             "ID_Context": "APP",
-            "FirebaseKey":
-                "$value"
+            "FirebaseKey": "$value"
           }
         }
       });
@@ -414,6 +415,84 @@ class ApiService {
     } on Exception catch (e) {
       print(e.toString());
       // sendMail(UrlList.SEND_OTP, SOMETHING_WRONG_TEXT);
+      throw ApiErrorException(e.toString());
+    }
+  }
+
+  Future<Map<String, dynamic>> collectPayment_invoice(
+      String name,
+      String email,
+      String contactNo,
+      double amount,
+      String referenceNo,
+      String description,
+      String hotelCode) async {
+    final nowDate = DateTime.now();
+    final currDate = Utility.formattedServerDateForPaymentRequest(nowDate);
+    final nextDate = Utility.formattedServerDateForPaymentRequest(
+        DateTime(nowDate.year, nowDate.month, nowDate.day + 1));
+    name = name.trim();
+    final nameArray = name.split(" ");
+    String firstName = name;
+    String lastName = "";
+    if (nameArray.length > 1) {
+      firstName = nameArray[0];
+      lastName = nameArray[1];
+    }
+    try {
+      final postJson = {
+        "ResInvoiceCreationReq": {
+          "InvoiceSet": {
+            "InvoiceData": {
+              "CustomerDetails": [
+                {
+                  "EmailId": email,
+                  "ExpiryDate": nextDate,
+                  "Description": description,
+                  "TermsAndConditions": "",
+                  "req_frm": "ChannelApp",
+                  "referenceNo": referenceNo,
+                  "Address": "",
+                  "FirstName": firstName,
+                  "check_in": currDate,
+                  "City": "",
+                  "InvoiceAmount": amount,
+                  "hotel_code": hotelCode,
+                  "ContactNo": contactNo,
+                  "check_out": nextDate,
+                  "room_name": "",
+                  "payment_type": "PaymentLink",
+                  "total_amount": amount,
+                  "Currency": "INR",
+                  "Zipcode": "",
+                  "Country": "India",
+                  "LastName": lastName
+                }
+              ]
+            }
+          }
+        }
+      };
+
+      final header = {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      };
+      print("body is " + postJson.toString());
+
+      final response = await http.post(Uri.parse(UrlList.bulkInvoice),
+          body: jsonEncode(postJson), headers: header);
+
+      print("collect payment data is " + response.body);
+      if (response.body != null) {
+        final json = jsonDecode(response.body);
+        return json;
+      }
+      throw ApiErrorException(SOMETHING_WRONG_TEXT);
+    } on SocketException catch (e) {
+      throw ApiErrorException(NO_INTERNET_CONN);
+    } on Exception catch (e) {
+      print(e.toString());
       throw ApiErrorException(e.toString());
     }
   }

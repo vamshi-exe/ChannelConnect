@@ -152,7 +152,11 @@ class HotelReservation {
 
   getImage() {
     final ota = uniqueID!.otaCode;
-    return channelImageMap[ota];
+    String? imgUrl = channelImageMap[ota];
+    if (imgUrl != null) {
+      return imgUrl;
+    }
+    return "assets/no_img.jpeg";
   }
 }
 

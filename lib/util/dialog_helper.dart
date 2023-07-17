@@ -50,7 +50,7 @@ class DialogHelper {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        FlatButton(
+                        TextButton(
                           child: Text(
                             'CANCEL',
                             style: TextStyle(
@@ -62,7 +62,7 @@ class DialogHelper {
                             Navigator.pop(context);
                           },
                         ),
-                        FlatButton(
+                        TextButton(
                           child: Text(
                             positiveBtnText,
                             style: TextStyle(
@@ -143,7 +143,7 @@ class DialogHelper {
               ),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text(
                   'CANCEL',
                   style: TextStyle(fontSize: 14),
@@ -152,7 +152,7 @@ class DialogHelper {
                   Navigator.pop(context);
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text('LOG OUT', style: TextStyle(fontSize: 14)),
                 onPressed: () => onClick(),
               ),
@@ -162,7 +162,8 @@ class DialogHelper {
   }
 
   static Future showUpdateDialog(BuildContext context, String title,
-      String desc, Function() onCancelClicked, Function() onUpdateClicked, {bool showCancel = true}) async {
+      String desc, Function() onCancelClicked, Function() onUpdateClicked,
+      {bool showCancel = true}) async {
     await showDialog(
         context: context,
         barrierDismissible: false,
@@ -174,16 +175,13 @@ class DialogHelper {
                 title: Text(title),
                 content: Text(desc),
                 actions: [
-                   Visibility(
-                     visible: showCancel,
-                     child: TextButton(
+                  Visibility(
+                    visible: showCancel,
+                    child: TextButton(
                         onPressed: onCancelClicked,
                         child: Text("REMIND LATER")),
-                   ),
-                  TextButton(
-                      onPressed: onUpdateClicked,
-                      child: Text("UPDATE")),
-                 
+                  ),
+                  TextButton(onPressed: onUpdateClicked, child: Text("UPDATE")),
                 ],
               ),
             ));
@@ -216,13 +214,13 @@ class DialogHelper {
                     color: AppColors.blackText),
               ),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   onPressed: onOkClicked ??
                       () {
                         Navigator.pop(context);
                       },
                   child: Text('OK'),
-                  textColor: AppColors.blackText,
+                  // textColor: AppColors.blackText,
                 )
               ],
             ),
@@ -245,7 +243,7 @@ class DialogHelper {
                     'No internet connection. Make sure that Wi-Fi or mobile data is turned on, then try again.'),
               ),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   child: Text('OK'),
                   onPressed: () {
                     Navigator.pop(context);

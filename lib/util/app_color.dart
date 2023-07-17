@@ -5,7 +5,11 @@ class AppColors {
   static const Color mainDarkColor = Color(0xff26313f);
   static final Color buttonColor = Color(0xff65bd77);
   static final Color whiteColor = Colors.white;
-  static final Color reportButtonColor = Color(0xffcee86d);
+  static final Color reportConfirmButtonColor = Color(0xffcee86d);
+  static final Color reportCancelButtonColor = Color(0xffFFC9BA);
+  static final Color reportModifiedButtonColor = Color(0xffebce78);
+  static final Color reportPendingButtonColor = Color(0xfff28235);
+  static final Color reportOtherButtonColor = Color(0xff529009);
   // calender colors
   static final Color calenderRedColor = Color(0xffFFC9BA);
   static final Color calenderGreenColor = Color(0xffCDE86C);

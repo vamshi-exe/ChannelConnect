@@ -4,14 +4,10 @@ import 'package:channel_connect/model/inventory_data.dart';
 import 'package:channel_connect/model/ota_property_data.dart';
 import 'package:channel_connect/model/rate_data.dart';
 import 'package:channel_connect/network/api_service.dart';
-import 'package:channel_connect/util/app_color.dart';
 import 'package:channel_connect/util/utility.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
 
 import 'component/selectYearMonthDialog.dart';
-import 'home_view.dart';
 
 class HomeViewModel extends ChangeNotifier {
   late DateTime _selectedDateTime;

@@ -82,5 +82,5 @@ class Constants {
   static const String configuration = "Configuration";
   static const String help = "Help";
   static const String logout = "Logout";
-
+  static const String collectPayment = "Collect Payment";
 }
