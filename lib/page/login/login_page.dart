@@ -1,9 +1,12 @@
+import 'package:channel_connect/app/app_repo.dart';
 import 'package:channel_connect/page/forgot_password/forgot_password.dart';
 import 'package:channel_connect/page/login/login_viewmodel.dart';
 import 'package:channel_connect/util/app_color.dart';
 import 'package:channel_connect/util/app_image.dart';
 import 'package:channel_connect/util/utility.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -18,6 +21,21 @@ class _LoginPageState extends State<LoginPage> {
   final formGlobalKey = GlobalKey<FormState>();
 
   bool isObsecure = true;
+  bool isChecked = false;
+
+  void _loadRememberMe() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool rememberMeValue = prefs.getBool('rememberMe') ?? false;
+    setState(() {
+      isChecked = rememberMeValue;
+    });
+  }
+
+  void handleRememberMe(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('rememberMe', value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LoginViewModel>.reactive(
@@ -69,7 +87,8 @@ class _LoginPageState extends State<LoginPage> {
                     TextFormField(
                       controller: model.usernameController,
                       validator: (value) {
-                        if (value!.isEmpty || !EmailValidator.validate(value, true)) {
+                        if (value!.isEmpty ||
+                            !EmailValidator.validate(value, true)) {
                           return "Please Enter Valid Username";
                         }
                         return null;
@@ -128,27 +147,54 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(
-                height: 30,
+                height: 10,
               ),
-              Center(
-                  child: TextButton(
-                onPressed: () {
-                  Utility.pushToNext(context, ForgotPasswordPage());
-                },
-                child: Text(
-                  "Forgot Password?",
-                  style: TextStyle(
-                      color: AppColors.grey500,
-                      decoration: TextDecoration.underline),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Row(
+                  children: [
+                    SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: Checkbox(
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          value: isChecked,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isChecked = value!;
+                            });
+                            handleRememberMe(isChecked);
+                          }),
+                    ),
+                    const Text(' Remember Me'),
+                  ],
                 ),
-              )),
+                SizedBox(
+                  height: 40,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Utility.pushToNext(context, const ForgotPasswordPage());
+                  },
+                  child: Container(
+                    child: Text(
+                      "Forgot Password?",
+                      style: TextStyle(
+                          color: AppColors.grey500,
+                          decoration: TextDecoration.underline),
+                    ),
+                  ),
+                ),
+              ]),
               const SizedBox(
-                height: 5,
+                height: 15,
               ),
               MaterialButton(
                 onPressed: () {
                   if (formGlobalKey.currentState!.validate()) {
                     model.loginUser(context);
+                    final repo = Provider.of<AppRepo>(context, listen: false);
+                    repo.fetchUser(context);
                   }
                 },
                 textColor: AppColors.whiteColor,

@@ -3,6 +3,7 @@ class OtaPropertyData {
   String? version;
   int? status;
   List<OTAPropertiesRS>? oTAPropertiesRS;
+  // List<OTAHotelRS>? oTAHotelRS;
 
   OtaPropertyData(
       {this.update, this.version, this.status, this.oTAPropertiesRS});
@@ -27,6 +28,41 @@ class OtaPropertyData {
     if (this.oTAPropertiesRS != null) {
       data['OTA_PropertiesRS'] =
           this.oTAPropertiesRS!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class OtaPropertyDropdownData {
+  String? update;
+  String? version;
+  int? status;
+  List<OTAPropertiesDropdownRS>? oTAPropertiesDropdownRS;
+  // List<OTAHotelRS>? oTAHotelRS;
+
+  OtaPropertyDropdownData(
+      {this.update, this.version, this.status, this.oTAPropertiesDropdownRS});
+
+  OtaPropertyDropdownData.fromJson(Map<String, dynamic> json) {
+    update = json['update'];
+    version = json['version'];
+    status = json['status'];
+    if (json['OTA_PropertiesRS'] != null) {
+      oTAPropertiesDropdownRS = <OTAPropertiesDropdownRS>[];
+      json['OTA_PropertiesRS'].forEach((v) {
+        oTAPropertiesDropdownRS!.add(new OTAPropertiesDropdownRS.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['update'] = this.update;
+    data['version'] = this.version;
+    data['status'] = this.status;
+    if (this.oTAPropertiesDropdownRS != null) {
+      data['OTA_PropertiesRS'] =
+          this.oTAPropertiesDropdownRS!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -115,6 +151,75 @@ class PropertyDetail {
     if (this.channels != null) {
       data['Channels'] = this.channels!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class OTAPropertiesDropdownRS {
+  List<PropertyDetailDropdown>? propertyDetailDropdown;
+
+  OTAPropertiesDropdownRS({this.propertyDetailDropdown});
+
+  OTAPropertiesDropdownRS.fromJson(Map<String, dynamic> json) {
+    if (json['PropertyDetail'] != null) {
+      propertyDetailDropdown = <PropertyDetailDropdown>[];
+      json['PropertyDetail'].forEach((v) {
+        propertyDetailDropdown!.add(new PropertyDetailDropdown.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.propertyDetailDropdown != null) {
+      data['PropertyDetail'] =
+          this.propertyDetailDropdown!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class PropertyDetailDropdown {
+  int? hotelId;
+  String? hotelName;
+  String? hotelCountry;
+  String? hotelCity;
+  String? hotelContact;
+  String? hotelPinCode;
+  String? hotelState;
+  List<RoomTypes>? roomTypes;
+  List<Channels>? channels;
+
+  PropertyDetailDropdown(
+      {this.hotelId,
+      this.hotelName,
+      this.hotelCountry,
+      this.hotelCity,
+      this.hotelContact,
+      this.hotelPinCode,
+      this.hotelState,
+      this.roomTypes,
+      this.channels});
+
+  PropertyDetailDropdown.fromJson(Map<String, dynamic> json) {
+    hotelId = json['hotel_id'];
+    hotelName = json['hotel_name'];
+    hotelCountry = json['hotel_country'];
+    hotelCity = json['hotel_city'];
+    hotelContact = json['hotel_contact'];
+    hotelPinCode = json['hotel_pin_code'];
+    hotelState = json['hotel_state'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['hotel_id'] = this.hotelId;
+    data['hotel_name'] = this.hotelName;
+    data['hotel_country'] = this.hotelCountry;
+    data['hotel_city'] = this.hotelCity;
+    data['hotel_contact'] = this.hotelContact;
+    data['hotel_pin_code'] = this.hotelPinCode;
+    data['hotel_state'] = this.hotelState;
     return data;
   }
 }

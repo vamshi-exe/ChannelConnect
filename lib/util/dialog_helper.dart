@@ -149,6 +149,7 @@ class DialogHelper {
                   style: TextStyle(fontSize: 14),
                 ),
                 onPressed: () {
+                  print('Logged out');
                   Navigator.pop(context);
                 },
               ),

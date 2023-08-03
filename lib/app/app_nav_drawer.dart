@@ -102,12 +102,16 @@ class AppNavDrawer extends StatelessWidget {
                             });
                           } else if (e.drawerEnum ==
                               DrawerEnum.collectPayment) {
+                            repo.setDrawerNavigationItem(e.drawerEnum);
                             Navigator.pop(context);
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const CollectPaymentList(
-                                    // hotelId: repo.selectedProperty.hotelId
-                                    //     .toString(),
-                                    )));
+                            // Navigator.of(context).push(
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const CollectPaymentList(
+                            //         // hotelId: repo.selectedProperty.hotelId
+                            //         //     .toString(),
+                            //         ),
+                            //   ),
+                            // );
                           } else {
                             Navigator.pop(context);
                             repo.setDrawerNavigationItem(e.drawerEnum);

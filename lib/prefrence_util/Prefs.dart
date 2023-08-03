@@ -65,10 +65,9 @@ class Prefs {
   static Future setCity(String value) =>
       PreferencesHelper.setString(Constants.CITY, value);
 
-  static Future<String> get city =>
-      PreferencesHelper.getString(Constants.CITY);
-  
-    static Future setUserData(String value) =>
+  static Future<String> get city => PreferencesHelper.getString(Constants.CITY);
+
+  static Future setUserData(String value) =>
       PreferencesHelper.setString(Constants.USER_DATA, value);
 
   static Future<String> get userData =>
@@ -77,10 +76,8 @@ class Prefs {
   static Future setRole(String value) =>
       PreferencesHelper.setString(Constants.ROLE, value);
 
-  static Future<String> get role =>
-      PreferencesHelper.getString(Constants.ROLE);
+  static Future<String> get role => PreferencesHelper.getString(Constants.ROLE);
 
-  
   static Future setStateList(String value) =>
       PreferencesHelper.setString(Constants.STATE_LIST, value);
 
@@ -93,7 +90,7 @@ class Prefs {
   static Future<String> get cityList =>
       PreferencesHelper.getString(Constants.LOGIN_DATE);
 
-   static Future setLoginDate(String value) =>
+  static Future setLoginDate(String value) =>
       PreferencesHelper.setString(Constants.LOGIN_DATE, value);
 
   static Future<String> get loginDate =>
@@ -105,11 +102,14 @@ class Prefs {
   static Future<String> get username =>
       PreferencesHelper.getString(Constants.USERNAME);
 
-    static Future setPassword(String value) =>
+  static Future setPassword(String value) =>
       PreferencesHelper.setString(Constants.PASSWORD, value);
 
   static Future<String> get password =>
       PreferencesHelper.getString(Constants.PASSWORD);
+
+  static Future<String> get hotel_code =>
+      PreferencesHelper.getString(Constants.HOTEL_ID);
 
   static void clear() async {
     Prefs.setLogin(false);

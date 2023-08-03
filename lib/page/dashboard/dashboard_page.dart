@@ -2,6 +2,7 @@ import 'package:channel_connect/app/app_nav_drawer.dart';
 import 'package:channel_connect/app/app_repo.dart';
 import 'package:channel_connect/model/ota_property_data.dart';
 import 'package:channel_connect/page/Collect_Payment/collectPayment_View.dart';
+import 'package:channel_connect/page/Collect_Payment/collectPayment_list.dart';
 import 'package:channel_connect/page/home/home_view.dart';
 import 'package:channel_connect/page/report/report_view.dart';
 import 'package:channel_connect/util/app_color.dart';
@@ -28,7 +29,6 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         ),
         drawer: AppNavDrawer(),
-        
         body: Builder(builder: (context) {
           if (repo.selectedNavigationItem == DrawerEnum.dashboard) {
             return HomeView();
@@ -36,11 +36,12 @@ class _DashboardPageState extends State<DashboardPage> {
           if (repo.selectedNavigationItem == DrawerEnum.reports) {
             return ReportView();
           }
+          if (repo.selectedNavigationItem == DrawerEnum.collectPayment) {
+            return CollectPaymentList();
+          }
           return HomeView();
         }),
       ),
     );
   }
 }
-
-

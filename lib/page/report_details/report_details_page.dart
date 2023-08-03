@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:ui';
 
 import 'package:channel_connect/app/app_repo.dart';
@@ -498,37 +497,39 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
       paybleAtHotel = double.parse(total.payableToHotel!);
     }
     String balanceDueVal = "${total.currencyCode!} $paybleAtHotel";
-    return paybleAtHotel > 0 ? Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-      child: DefaultTextStyle(
-        style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-            color: AppColors.blackText),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                    flex: 2,
-                    child: Text(
-                      "Balance Due",
-                      textAlign: TextAlign.end,
-                    )),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(" : "),
-                SizedBox(
-                  width: 5,
-                ),
-                Expanded(flex: 1, child: Text(balanceDueVal))
-              ],
-            )
-          ],
-        ),
-      ),
-    ) : Container();
+    return paybleAtHotel > 0
+        ? Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            child: DefaultTextStyle(
+              style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.blackText),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Balance Due",
+                            textAlign: TextAlign.end,
+                          )),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(" : "),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(flex: 1, child: Text(balanceDueVal))
+                    ],
+                  )
+                ],
+              ),
+            ),
+          )
+        : Container();
   }
 
   _performCollectPayment(Function(String email) onSubmit) async {

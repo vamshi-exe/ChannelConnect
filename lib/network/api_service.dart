@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:channel_connect/model/inventory_data.dart';
@@ -27,18 +26,20 @@ class ApiService {
       };
       final value = await FirebaseMessaging.instance.getToken();
       var request = http.Request('POST', Uri.parse(UrlList.propertyDetails));
-      request.body = json.encode({
-        "APP_VersionRQ": {
-          "POS": {
-            "Action": "Login",
-            "IMEI": "unknown",
-            "Username": "$username",
-            "Password": "$password",
-            "ID_Context": "APP",
-            "FirebaseKey": "$value"
+      request.body = json.encode(
+        {
+          "APP_VersionRQ": {
+            "POS": {
+              "Action": "Login",
+              "IMEI": "unknown",
+              "Username": "$username",
+              "Password": "$password",
+              "ID_Context": "APP",
+              "FirebaseKey": "$value"
+            }
           }
-        }
-      });
+        },
+      );
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
@@ -121,6 +122,7 @@ class ApiService {
     try {
       final username = await Prefs.username;
       final password = await Prefs.password;
+      final hotelCode = await Prefs.hotel_code;
       final queryData = {
         "response_type": "json",
         "request_method": "rate",
@@ -458,7 +460,7 @@ class ApiService {
                   "City": "",
                   "InvoiceAmount": amount,
                   "hotel_code": hotelCode,
-                  "ContactNo": contactNo,
+                  "ContactNo": "${contactNo}",
                   "check_out": nextDate,
                   "room_name": "",
                   "payment_type": "PaymentLink",
@@ -475,10 +477,11 @@ class ApiService {
       };
 
       final header = {
-        "Accept": "application/json",
+        "Accept": "application/json; charset=UTF-8",
         "Content-Type": "application/json"
       };
       print("body is " + postJson.toString());
+      print("this is the contact no::::::: ${contactNo}");
 
       final response = await http.post(Uri.parse(UrlList.bulkInvoice),
           body: jsonEncode(postJson), headers: header);
@@ -496,4 +499,6 @@ class ApiService {
       throw ApiErrorException(e.toString());
     }
   }
+
+  // prop_id
 }

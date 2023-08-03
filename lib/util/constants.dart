@@ -68,6 +68,7 @@ class Constants {
 
   static String USERNAME = "username";
   static String PASSWORD = "Password";
+  static String HOTEL_ID = "hotel_code";
 
   // navigation drawer variables
   static const String inventoryRate = "Inventory - Rate";

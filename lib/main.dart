@@ -1,5 +1,6 @@
 import 'package:channel_connect/page/report/report_view.dart';
 import 'package:channel_connect/page/splash/splash_page.dart';
+import 'package:channel_connect/util/payment_detail_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,38 +24,46 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a background message ${message.messageId}');
 }
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-   await Firebase.initializeApp();
-  
+  await Firebase.initializeApp();
+
   // Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   setUpLocator();
   final model = AppRepo();
+  final model2 = HotelRepo();
+
   //await model.init();
   final login = await Prefs.login;
   myPrint("start login is $login");
   runApp(MyApp(
     repo: model,
     login: login,
+    repo1: model2,
   ));
 }
 
 final routies = {
-  '/HomePage': (BuildContext context) => DashboardPage(),
-  '/LoginPage': (BuildContext context) => LoginPage(),
+  '/HomePage': (BuildContext context) => const DashboardPage(),
+  '/LoginPage': (BuildContext context) => const LoginPage(),
 };
 
 class MyApp extends StatelessWidget {
   final AppRepo? repo;
+  final HotelRepo repo1;
   final bool? login;
 
-  const MyApp({Key? key,  this.repo, this.login}) : super(key: key);
+  const MyApp({Key? key, this.repo, this.login, required this.repo1})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider<AppRepo>.value(value: repo!)],
+      providers: [
+        ChangeNotifierProvider<AppRepo>.value(value: repo!),
+        ChangeNotifierProvider<HotelRepo>.value(value: repo1),
+        ChangeNotifierProvider<APIProvider>(create: (_) => APIProvider()),
+      ],
       child: MaterialApp(
         color: AppColors.backgroundColor,
         title: 'Channel Connect',
@@ -63,11 +72,11 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.pink,
             focusColor: Colors.blueGrey,
             appBarTheme: AppBarTheme(
-              color: AppColors.mainColor, systemOverlayStyle: SystemUiOverlayStyle.light
-            ),
+                color: AppColors.mainColor,
+                systemOverlayStyle: SystemUiOverlayStyle.light),
             textTheme:
                 GoogleFonts.robotoTextTheme(Theme.of(context).textTheme)),
-        home: SplashPage(),
+        home: const SplashPage(),
         // home: Scaffold(
         //   appBar: AppBar(),
         //   body: ReportView()),

@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:channel_connect/page/login/login_viewmodel.dart' as model;
 import 'package:channel_connect/app/app_repo.dart';
 import 'package:channel_connect/prefrence_util/Prefs.dart';
 import 'package:channel_connect/util/app_color.dart';
@@ -9,6 +9,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -122,15 +123,22 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   }
 
   validateLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool rememberMe = prefs.getBool('rememberMe') ?? false;
+
     // Future.delayed(Duration(seconds: 2), () async {
     final login = await Prefs.login;
     final lastLoginDate = await Prefs.loginDate;
     print("last login date $lastLoginDate -  current date " +
         Utility.formattedDeviceDate(DateTime.now()));
-    if (login
+    if (rememberMe
+        // login && rememberMe
         //&&
         //  Utility.formattedDeviceDate(DateTime.now()) == lastLoginDate
         ) {
+      final username = await Prefs.username;
+      final password = await Prefs.password;
+
       final repo = Provider.of<AppRepo>(context, listen: false);
       repo.fetchUser(context);
       // Utility.pushToDashBoard(context);

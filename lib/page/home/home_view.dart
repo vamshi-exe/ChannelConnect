@@ -252,7 +252,7 @@ class _HomeViewState extends State<HomeView>
     final repo = Provider.of<AppRepo>(context, listen: false);
     return ViewModelBuilder<HomeViewModel>.reactive(
       viewModelBuilder: () => HomeViewModel(),
-      onModelReady: (model) => model.intiData(context, repo),
+      onViewModelReady: (model) => model.intiData(context, repo),
       builder: (context, model, child) => Consumer<AppRepo>(
         builder: (context, repo, child) => Scaffold(
           floatingActionButton:
@@ -310,16 +310,14 @@ class _HomeViewState extends State<HomeView>
                       selctedRatePlanType: repo.selectedRateRoomType,
                       isInventory: false,
                       onRoomChanged: (RoomTypes value) {
-                         _inventoryList.clear();
+                        _inventoryList.clear();
                         _rateList.clear();
                         repo.setSelectedInventoryRoomType(value);
-                        
                       },
                       onRateChanged: (RatePlans value) {
-                         _inventoryList.clear();
+                        _inventoryList.clear();
                         _rateList.clear();
                         repo.setSelectedRateRoomType(value);
-                        
                       },
                       onRateListUpdated: (List<RateData> list) {
                         _rateList = list

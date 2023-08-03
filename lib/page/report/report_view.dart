@@ -231,7 +231,8 @@ class _ReportSearchWidgetState extends State<ReportSearchWidget> {
     }
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: (!isFrom)? dateTime ?? fromDateTime!:dateTime??DateTime.now(),
+        initialDate:
+            (!isFrom) ? dateTime ?? fromDateTime! : dateTime ?? DateTime.now(),
         firstDate: (!isFrom) ? fromDateTime! : DateTime(2010, 1),
         lastDate: (_selectedType == 2)
             ? DateTime(DateTime.now().year + 5)
@@ -243,7 +244,7 @@ class _ReportSearchWidgetState extends State<ReportSearchWidget> {
         toDateTime = null;
         _dateToController.text = "";
         setState(() {});
-       // _selectDate(context, false);
+        // _selectDate(context, false);
       } else {
         toDateTime = picked;
         _dateToController.text = Utility.formattedDeviceDate(picked);
@@ -320,10 +321,10 @@ class _ReportSearchWidgetState extends State<ReportSearchWidget> {
                                       onTap: () {
                                         setState(() {
                                           _selectedType = 1;
-                                            fromDateTime = null;
-                                        toDateTime = null;
-                                        _dateFromController.text = "";
-                                        _dateToController.text = "";
+                                          fromDateTime = null;
+                                          toDateTime = null;
+                                          _dateFromController.text = "";
+                                          _dateToController.text = "";
                                         });
                                       },
                                       child: Text("Booking Date",
@@ -345,7 +346,7 @@ class _ReportSearchWidgetState extends State<ReportSearchWidget> {
                                     onChanged: (int? value) {
                                       setState(() {
                                         _selectedType = value!;
-                                          fromDateTime = null;
+                                        fromDateTime = null;
                                         toDateTime = null;
                                         _dateFromController.text = "";
                                         _dateToController.text = "";
@@ -356,10 +357,10 @@ class _ReportSearchWidgetState extends State<ReportSearchWidget> {
                                       onTap: () {
                                         setState(() {
                                           _selectedType = 2;
-                                            fromDateTime = null;
-                                        toDateTime = null;
-                                        _dateFromController.text = "";
-                                        _dateToController.text = "";
+                                          fromDateTime = null;
+                                          toDateTime = null;
+                                          _dateFromController.text = "";
+                                          _dateToController.text = "";
                                         });
                                       },
                                       child: Text(
@@ -745,16 +746,20 @@ class ReportRowWidget extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4)),
                     onPressed: () {},
-                    color: report.resStatus! == "Cancel" ? AppColors.reportCancelButtonColor
-                        : report.resStatus! == "Modify" ? AppColors.reportModifiedButtonColor
-                        : report.resStatus! == "Commit" ? AppColors.reportConfirmButtonColor
-                        : report.resStatus! == "Pending" ? AppColors.reportPendingButtonColor
-                        : AppColors.reportOtherButtonColor,
+                    color: report.resStatus! == "Cancel"
+                        ? AppColors.reportCancelButtonColor
+                        : report.resStatus! == "Modify"
+                            ? AppColors.reportModifiedButtonColor
+                            : report.resStatus! == "Commit"
+                                ? AppColors.reportConfirmButtonColor
+                                : report.resStatus! == "Pending"
+                                    ? AppColors.reportPendingButtonColor
+                                    : AppColors.reportOtherButtonColor,
                     child: Text(report.resStatus! == "Commit"
-                    ? "Confirmed"
-                    : report.resStatus! == "Modify"
-                        ? "Modified"
-                        : report.resStatus!))
+                        ? "Confirmed"
+                        : report.resStatus! == "Modify"
+                            ? "Modified"
+                            : report.resStatus!))
               ],
             ))
           ],

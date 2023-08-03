@@ -15,7 +15,7 @@ class AppRepo extends ChangeNotifier {
 
   late OtaPropertyData _otaPropertyData;
   late PropertyDetail _selectedProperty;
-
+  // late HotelDetail _selectedHotel;
   late DrawerEnum _selectedNavigationItem;
   late RoomTypes? _selectedInvetoryRoomType;
   late RatePlans? _selectedRateRoomType;
@@ -36,8 +36,10 @@ class AppRepo extends ChangeNotifier {
 
   bool get login => _login;
   OtaPropertyData get otaPropertyData => _otaPropertyData;
+
   DrawerEnum get selectedNavigationItem => _selectedNavigationItem;
   PropertyDetail get selectedProperty => _selectedProperty;
+  // HotelDetail get selectedHotel => _selectedHotel;
   RoomTypes? get selectedInventoryRoomType => _selectedInvetoryRoomType;
   RatePlans? get selectedRateRoomType => _selectedRateRoomType;
   DateTime get selectedDateTime => _selectedDateTime;
@@ -64,6 +66,32 @@ class AppRepo extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  setSelectedPropertyDropdown(PropertyDetail detail) {
+    _selectedProperty = detail;
+    // _selectedNavigationItem = DrawerEnum.dashboard;
+    // if (detail.roomTypes!.isNotEmpty) {
+    //   _selectedInvetoryRoomType = detail.roomTypes![0];
+    //   _selectedRateRoomType = detail.roomTypes![0].ratePlans![0];
+    // } else {
+    //   _selectedInvetoryRoomType = null;
+    //   _selectedRateRoomType = null;
+    // }
+    // notifyListeners();
+  }
+
+  // setSelectedHotel(HotelDetail detail) {
+  //   _selectedHotel = detail;
+  //   _selectedNavigationItem = DrawerEnum.dashboard;
+  //   if (detail.roomTypes!.isNotEmpty) {
+  //     _selectedInvetoryRoomType = detail.roomTypes![0];
+  //     _selectedRateRoomType = detail.roomTypes![0].ratePlans![0];
+  //   } else {
+  //     _selectedInvetoryRoomType = null;
+  //     _selectedRateRoomType = null;
+  //   }
+  //   notifyListeners();
+  // }
 
   setSelectedInventoryRoomType(RoomTypes type) {
     _selectedInvetoryRoomType = type;
@@ -147,6 +175,53 @@ class AppRepo extends ChangeNotifier {
         icon: Icons.logout_outlined,
         drawerEnum: DrawerEnum.logout));
     return list;
+  }
+}
+
+class HotelRepo extends ChangeNotifier {
+  final _apiService = locator<ApiService>();
+  OtaPropertyData? _otaPropertyData;
+  PropertyDetail? _selectedProperty;
+  // late DrawerEnum _selectedNavigationItem;
+  // late RoomTypes? _selectedInvetoryRoomType;
+  // late RatePlans? _selectedRateRoomType;
+
+  OtaPropertyData? get otaPropertyData => _otaPropertyData;
+  PropertyDetail? get selectedProperty => _selectedProperty;
+
+  setOtaPropertyData(OtaPropertyData data) {
+    _otaPropertyData = data;
+    notifyListeners();
+  }
+
+  setSelectedProperty(PropertyDetail detail) {
+    _selectedProperty = detail;
+    // _selectedNavigationItem = DrawerEnum.dashboard;
+    // if (detail.roomTypes!.isNotEmpty) {
+    //   _selectedInvetoryRoomType = detail.roomTypes![0];
+    //   _selectedRateRoomType = detail.roomTypes![0].ratePlans![0];
+    // } else {
+    //   _selectedInvetoryRoomType = null;
+    //   _selectedRateRoomType = null;
+    // }
+    notifyListeners();
+  }
+
+  void fetchHotelCode(BuildContext context) async {
+    try {
+      final username = await Prefs.username;
+      final password = await Prefs.password;
+      final response = await _apiService.fetchUser(username, password);
+      final OtaPropertyData data = response.data!;
+      setOtaPropertyData(data);
+      setSelectedProperty(data.oTAPropertiesRS![0].propertyDetail![0]);
+      print(
+          'data is ========> ${data.oTAPropertiesRS![0].propertyDetail![0].hotelId}');
+      // Utility.pushToDashBoard(context);
+    } catch (e) {
+      print(e.toString());
+      Utility.showSnackBar(context, SOMETHING_WRONG_TEXT);
+    }
   }
 }
 
